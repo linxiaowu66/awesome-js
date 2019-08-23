@@ -1,0 +1,32 @@
+{
+  "name": "awesome-js",
+  "version": "1.0.0",
+  "description": "util functions and regxs for javascript",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "release": "rimraf ./dist && npm run build && npm publish"
+  },
+  "files": [
+    "dist",
+    "types"
+  ],
+  "main": "dist/index.js",
+  "engine": "node >= 8.x",
+  "dependencies": {
+    "big.js": "^5.2.2"
+  },
+  "devDependencies": {
+    "@types/big.js": "^4.0.5",
+    "rimraf": "^2.6.2",
+    "typescript": "^2.9.2"
+  },
+  "homepage": "https://github.com/linxiaowu66/awesome-js.git",
+  "bugs": {
+    "url": "https://github.com/linxiaowu66/awesome-js/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:linxiaowu66/awesome-js.git"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["es6", "dom"],
+    "typeRoots": ["./types", "node_modules/@types"],
+    "outDir": "./dist",
+    "sourceMap": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "isolatedModules": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "noImplicitAny": true,
+    "preserveConstEnums": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "allowJs": true,
+    "baseUrl": ".",
+    "paths": {
+    }
+  },
+  "include": ["lib"]
+}
