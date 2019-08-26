@@ -1,3 +1,4 @@
+--require ts-node/register
 --timeout 3000
-test/*.spec.js
+test/*.spec.ts
 --exit

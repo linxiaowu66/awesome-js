@@ -194,21 +194,25 @@ export namespace AwesomeHelp {
   export function hiddenNumberExpectSpecified(num: number, expected: number, hiddenStr: string): string
 
   /**
- * 将所有的敏感词汇组成一个嵌套的Map结构，使用的是DFA数据结构算法
- * @param sensitiveWordList
- */
+   * 将所有的敏感词汇组成一个嵌套的Map结构，使用的是DFA数据结构算法
+   * @param sensitiveWordList
+   */
   export function makeSensitiveMap(sensitiveWordList: string[]): wordMap
 
   /**
- * 检查搜寻的文本是否含有敏感词汇
- * @param txt 需要查找敏感词的文本
- * @param sensitiveWordsMap 敏感词汇的Map结构，允许自定义，如果自定义需要使用上面的函数makeSensitiveMap去生成，如果没有传，默认使用自带的敏感词库
- * @param isQuickSearch 是否需要快速查询,默认是false，如果是的话查找到值是返回true，反之是false
- */
+   * 检查搜寻的文本是否含有敏感词汇
+   * @param txt 需要查找敏感词的文本
+   * @param sensitiveWordsMap 敏感词汇的Map结构，允许自定义，如果自定义需要使用上面的函数makeSensitiveMap去生成，如果没有传，默认使用自带的敏感词库
+   * @param isQuickSearch 是否需要快速查询,默认是false，如果是的话查找到值是返回true，反之是false
+   */
+  export function checkSensitiveWord(
+    txt: string,
+    isQuickSearch?: null,
+    sensitiveWordsMap?: wordMap): Map<string, { location: number}[] >
   export function checkSensitiveWord(
     txt: string,
     isQuickSearch: boolean,
-    sensitiveWordsMap: wordMap): Map<string, { location: number}[] > | boolean
+    sensitiveWordsMap?: wordMap): boolean
 }
 
 export namespace AwesomeMath {

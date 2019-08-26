@@ -206,12 +206,13 @@ export function makeSensitiveMap(sensitiveWordList: string[]) {
 export function checkSensitiveWord(
   txt: string,
   isQuickSearch = false,
-  sensitiveWordsMap: wordMap) {
-  const _sensitiveWordsMap = sensitiveWordsMap ? sensitiveWordsMap : () => {
+  sensitiveWordsMap?: wordMap) {
+  const defaultMap = () => {
     const data = fs.readFileSync(path.resolve(__dirname, '../utils/sensitiveWords.txt'), 'utf8')
-    const wordsArray = data.trimLeft().split('|')
+    const wordsArray = data.trim().split('|')
     return makeSensitiveMap(wordsArray)
   }
+  const _sensitiveWordsMap = sensitiveWordsMap ? sensitiveWordsMap : defaultMap()
   const matchWords = new Map()
   for (let i = 0; i < txt.length; i++) {
     let currentMap = _sensitiveWordsMap;
