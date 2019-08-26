@@ -20,6 +20,7 @@
     "@types/big.js": "^4.0.5",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.7.2",
+    "fastscan": "^1.0.6",
     "mocha": "^6.2.0",
     "rimraf": "^2.6.2",
     "should": "^13.2.3",
