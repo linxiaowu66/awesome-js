@@ -5,8 +5,56 @@ const should = require('should')
 
 describe('testing the help functions', () => {
   it('testing addFloat', (done) => {
+    const result = AwesomeHelp.addFloat(0.1, 0.2)
+    should(result.toString()).equal('0.3')
     done()
   })
+  it('testing minusFloat', (done) => {
+    const result = AwesomeHelp.minusFloat(0.3, 0.1)
+    should(result.toString()).equal('0.2')
+    done()
+  })
+  it('testing divFloat', (done) => {
+    const result = AwesomeHelp.divFloat(0.3, 0.1)
+    should(result.toString()).equal('3')
+    done()
+  })
+  it('testing timesFloat', (done) => {
+    const result = AwesomeHelp.timesFloat(0.2, 0.1)
+    should(result.toString()).equal('0.02')
+    done()
+  })
+  it('testing toFixed', (done) => {
+    const result = AwesomeHelp.toFixed(0.015, 2)
+    should(result.toString()).equal('0.02')
+    done()
+  })
+
+  describe('testing convertDate', () => {
+    it('normal case', (done) => {
+      const result = AwesomeHelp.convertDate(new Date(2019, 7, 27, 9, 0, 0), 'YYYY-MM-DD hh:mm:ss')
+      should(result).equal('2019-08-27 09:00:00')
+      done()
+    })
+    it('support Chinese', (done) => {
+      const result = AwesomeHelp.convertDate(new Date(2019, 7, 27, 9, 0, 0), 'YYYY年MM月DD日 hh时mm分ss秒')
+      should(result).equal('2019年08月27日 09时00分00秒')
+      done()
+    })
+  })
+
+  it('testing groupBySomeFields', (done) => {
+    const data = [{ type: 1, name: 'a'}, { type: 2, name: 'b'}, { type: 3, name: 'c'}, {type: 2, name: 'c'}, { type: 3, name: 'd'}]
+    const result = AwesomeHelp.groupBySomeFields(data, (item) => item.type)
+
+    should(result.length).equal(3)
+    should(result[0].length).equal(1)
+    should(result[1].length).equal(2)
+    should(result[2].length).equal(2)
+    should(result[2][0].name).equal('c')
+    done()
+  })
+
 
   describe('testing the checkSensitiveWord function', () => {
     it('using default sensitive sentences', (done) => {

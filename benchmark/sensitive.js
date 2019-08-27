@@ -49,5 +49,5 @@ function benchmarkForACalgorithm() {
 }
 
 // 内存的测试需要单独跑，否则二者之间会有相互冲突的情况
-// benchmarkForDFAalgorithm()
-// benchmarkForACalgorithm()
+benchmarkForDFAalgorithm()
+benchmarkForACalgorithm()
