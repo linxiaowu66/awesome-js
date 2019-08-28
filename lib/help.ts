@@ -113,17 +113,6 @@ export function groupBySomeFields<T>(list: Array<T>, fields: (item: T) => {}): T
   return Object.keys(groups).map(item => groups[item])
 }
 
-export const makeDeferred = (): Deferred => {
-  const a = {} as Deferred
-  const p = new Promise((resolve, reject) => {
-    a.reject = reject
-    a.resolve = resolve
-  })
-  a.promise = p
-
-  return a
-}
-
 export function isGenerator(obj: any) {
   return "function" === typeof obj.next && "function" === typeof obj.throw
 }

@@ -55,6 +55,39 @@ describe('testing the help functions', () => {
     done()
   })
 
+  it('testing isGenerator', (done) => {
+    function *myGenerator() {
+      let count = 0
+      while(true) {
+        yield count++
+      }
+    }
+    function notGenerator() {
+      let count = 0;
+      while(true) {
+        count++
+      }
+    }
+    const result = AwesomeHelp.isGenerator(myGenerator.prototype)
+    const result1 = AwesomeHelp.isGenerator(notGenerator.prototype)
+    const result2 = AwesomeHelp.isGeneratorFunction(myGenerator)
+    const result3 = AwesomeHelp.isGeneratorFunction(notGenerator)
+
+    should(result).equal(true)
+    should(result1).equal(false)
+    should(result2).equal(true)
+    should(result3).equal(false)
+    done()
+  })
+
+  it('testing isPromise', (done) => {
+    const p = new Promise((resolve, reject) => resolve(1))
+
+    const result = AwesomeHelp.isPromise(p)
+
+    should(result).equal(true)
+    done()
+  })
 
   describe('testing the checkSensitiveWord function', () => {
     it('using default sensitive sentences', (done) => {
