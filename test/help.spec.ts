@@ -89,6 +89,20 @@ describe('testing the help functions', () => {
     done()
   })
 
+  it('testing toThousands', (done) => {
+    const result = AwesomeHelp.toThousands(1000000000)
+
+    should(result).equal('1,000,000,000')
+    done()
+  })
+  it('testing hiddenNumberExpectSpecified', (done) => {
+    const result = AwesomeHelp.hiddenNumberExpectSpecified(1000000000, 0, '?')
+    const result1 = AwesomeHelp.hiddenNumberExpectSpecified(1000000000, 8, '*')
+    should(result).equal('1?????????')
+    should(result1).equal('********0*')
+    done()
+  })
+
   describe('testing the checkSensitiveWord function', () => {
     it('using default sensitive sentences', (done) => {
       const result = AwesomeHelp.checkSensitiveWord('台独是一个敏感词')
