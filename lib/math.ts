@@ -1,6 +1,4 @@
 // 数学计算相关有用的函数
-
-// 计算多边形的中心点位置
 export class Region {
   points: number[][]
   length: number
@@ -8,6 +6,11 @@ export class Region {
     this.points = points || []
     this.length = this.points.length
   }
+  /**
+   * 计算规则的多边形的中心点位置
+   *
+   * @memberof Region
+   */
   public centroid = () => {
     let x = 0
     let y = 0
@@ -26,8 +29,14 @@ export class Region {
     f = this.area() * 6;
 
     // x is longitude, y is latitude
-    return { x: x / f, y: y / f}
+    return { longitude: x / f, latitude: y / f}
   }
+  /**
+   * 计算规则多边形的区域，私有函数
+   *
+   * @private
+   * @memberof Region
+   */
   private area = () => {
     let area = 0
     let point1
