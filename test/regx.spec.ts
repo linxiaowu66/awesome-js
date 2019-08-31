@@ -28,4 +28,30 @@ describe('testing regx functions', () => {
     should(result).equal('171****3931')
     done()
   })
+  it('testing privacyName', (done) => {
+    const result = AwesomeRegx.privacyName('林小兀')
+
+    should(result).equal('林**')
+    done()
+  })
+  it('testing chineseAndfullWidthChar', (done) => {
+    const result = AwesomeRegx.chineseAndfullWidthChar.test('，ｗｏｓｈｉｑｕａｎｊｉａｏ')
+
+    should(result).equal(true)
+    done()
+  })
+  it('testing https', (done) => {
+    const result = AwesomeRegx.https("http://blog.5udou.cn")
+
+    should(result).equal('//blog.5udou.cn')
+    done()
+  })
+  it('testing simpleIdentityNo', (done) => {
+    const result = AwesomeRegx.simpleIdentityNo.test('35262728292929')
+    const result1 = AwesomeRegx.simpleIdentityNo.test('350626200001011023')
+
+    should(result).equal(false)
+    should(result1).equal(true)
+    done()
+  })
 })

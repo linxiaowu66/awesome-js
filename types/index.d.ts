@@ -30,9 +30,9 @@ export namespace AwesomeRegx {
    */
   export const chineseAndfullWidthChar: RegExp;
   /**
-   * @description 匹配image标签里面的src属性,常用于将src的http去掉
+   * @description 将http链接去掉，保持和Host一致，防止有的图片展示不了
    */
-  export const imgSrc: RegExp;
+  export const https: (url: string) => string;
   /**
    * @description 简单的匹配身份证号
    */

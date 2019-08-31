@@ -15,8 +15,8 @@ export const privacyName = (name: string) => name.replace(/^(\S)\S*$/, '$1**')
 export const chineseAndfullWidthChar = /[\u4E00-\u9FA5\uF900-\uFA2D\uFF00-\uFFEF]/
 
 
-// 匹配html中的图片的src'http://'为'//'
-export const imgSrc = /src\s*=\s*("|')\s*http:\/\//ig
+// 替换http的链接为//
+export const https = (url: string) => url.replace(/^http:/, '')
 
 // 身份证的简单判断
 export const simpleIdentityNo = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
