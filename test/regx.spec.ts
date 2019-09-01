@@ -86,4 +86,26 @@ describe('testing regx functions', () => {
 
     done()
   })
+  it('testing char', (done) => {
+    const result = AwesomeRegx.alphabat.test('abbA')
+    const result1 = AwesomeRegx.upperAlpha.test('ABB')
+    const result2 = AwesomeRegx.lowerAlpha.test('abb')
+    const result3 = AwesomeRegx.alphaAndNumber.test('abb12')
+    const result4 = AwesomeRegx.alphaNumWithUnderline.test('ab_12b')
+    const result5 = AwesomeRegx.DBC.test('我')
+    const result6 = AwesomeRegx.emptyLine.test(`
+
+    `)
+    const result7 = AwesomeRegx.emptyCharInStartAndEnd.test(' jsjs ')
+
+    should(result).equal(true)
+    should(result1).equal(true)
+    should(result2).equal(true)
+    should(result3).equal(true)
+    should(result4).equal(true)
+    should(result5).equal(true)
+    should(result6).equal(true)
+    should(result7).equal(true)
+    done()
+  })
 })
