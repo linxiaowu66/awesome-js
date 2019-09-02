@@ -6,6 +6,7 @@
     "build": "tsc -p tsconfig.json",
     "test": "mocha",
     "coverage": "nyc npm run test",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "release": "rimraf ./dist && npm run build && npm publish"
   },
   "files": [
@@ -21,6 +22,7 @@
     "@types/big.js": "^4.0.5",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.7.2",
+    "coveralls": "^3.0.6",
     "fastscan": "^1.0.6",
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",
