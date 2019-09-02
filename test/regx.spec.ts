@@ -108,4 +108,43 @@ describe('testing regx functions', () => {
     should(result7).equal(true)
     done()
   })
+  it('testing email', (done) => {
+    const result = AwesomeRegx.email.test('linguang661990@126.com')
+
+    should(result).equal(true)
+    done()
+  })
+  it('testing url', (done) => {
+    const result = AwesomeRegx.url.test('https://blog.5udou.cn')
+    const result1 = AwesomeRegx.url.test('ws://blog.5udou.cn/ws')
+
+    should(result).equal(true)
+    should(result1).equal(true)
+
+    done()
+  })
+  it('testing ip', (done) => {
+    const result = AwesomeRegx.ip.test('192.0.0.1')
+    should(result).equal(true)
+
+    done()
+  })
+  it('testing telPhone', (done) => {
+    const result = AwesomeRegx.telPhone.test('0571-8899001')
+    const result1 = AwesomeRegx.telPhone.test('021-8899001')
+    const result2 = AwesomeRegx.telPhone.test('021-88990011')
+
+    should(result).equal(true)
+    should(result1).equal(true)
+    should(result2).equal(true)
+    done()
+  })
+  it('testing postalCode', (done) => {
+    const result = AwesomeRegx.postalCode.test('330110')
+    const result1 = AwesomeRegx.postalCode.test('030110')
+
+    should(result).equal(true)
+    should(result1).equal(false)
+    done()
+  })
 })

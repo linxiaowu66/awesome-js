@@ -91,7 +91,7 @@ export const url = /[a-zA-z]+:\/\/[^s]*/
 export const ip = /\d+.\d+.\d+.\d+/
 
 // 匹配国内座机
-export const telPhone = /\d{3}-\d{8}|\d{4}-\d{7}/
+export const telPhone = /^(?:0[1-9][0-9]{1,2}-)?[2-8][0-9]{6,7}$/
 
 // 匹配邮政编码
 export const postalCode = /^[1-9][0-9]{5}$/
