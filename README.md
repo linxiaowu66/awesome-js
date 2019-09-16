@@ -13,7 +13,7 @@
 
 ## TodoList
 
-  - [ ] Add Unit Test
+  - [x] Add Unit Test
 
 ## Feature
 
