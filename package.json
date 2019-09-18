@@ -1,6 +1,6 @@
 {
   "name": "awesome-js",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "util functions and regxs for javascript",
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -11,7 +11,8 @@
   },
   "files": [
     "dist",
-    "types"
+    "types",
+    "utils"
   ],
   "main": "dist/index.js",
   "engine": "node >= 8.x",
