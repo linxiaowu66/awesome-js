@@ -104,10 +104,10 @@ describe('testing the help functions', () => {
   })
 
   describe('testing the checkSensitiveWord function', () => {
-    it.only('using default sensitive sentences', (done) => {
-      const result = AwesomeHelp.checkSensitiveWord('闪电湖手段和速度哈师大会实打实大密诱阿萨德化手段时段是的哈USD哈')
+    it('using default sensitive sentences', (done) => {
+      const result = AwesomeHelp.checkSensitiveWord('闪电湖手段和速台独度哈师大会实打实大密诱阿萨德化手段时段是的哈USD哈')
 
-      should((result as Map<string, { location: number}[] >).size).equal(1)
+      should((result as Map<string, { location: number}[] >).size).equal(2)
       should((result as Map<string, { location: number}[] >).get('台独').length).equal(1)
       done()
     })
