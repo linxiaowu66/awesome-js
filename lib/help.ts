@@ -119,9 +119,6 @@ export function isGenerator(obj: any) {
 
 export function isGeneratorFunction(obj: any) {
   const constructor = obj.constructor
-  if (!constructor) {
-    return false
-  }
   if (
     "GeneratorFunction" === constructor.name ||
     "GeneratorFunction" === constructor.displayName
@@ -141,7 +138,7 @@ export function isPromise(obj: any) {
  * @return {string} 格式化之后的结果
  */
 export function toThousands(num: number) {
-  return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+  return num.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
 }
 
 /**
@@ -151,7 +148,7 @@ export function toThousands(num: number) {
  * @param hiddenStr 希望隐藏的数字转换成哪个字符，默认是?
  */
 export function hiddenNumberExpectSpecified(num: number, expected = 0, hiddenStr = '?') {
-  return (num || 0).toString().replace(/\S/g, (match, offset) => (offset !== expected ? hiddenStr : match))
+  return num.toString().replace(/\S/g, (match, offset) => (offset !== expected ? hiddenStr : match))
 }
 
 /**

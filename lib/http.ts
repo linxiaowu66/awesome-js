@@ -17,7 +17,7 @@ export const updateQueryStringParam = (fullUrl: string, key: string, value: any)
   return `${baseUrl}${params}`
 }
 
-export const queryObject2String = (path: string, queryObject: object) => {
+export const queryObject2String = (path: string, queryObject?: object) => {
   if (typeof queryObject === 'object') {
     const queryStr = Object.keys(queryObject).map(key => `${key}=${queryObject[key]}`).join('&')
     return `${path}?${queryStr}`

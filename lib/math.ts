@@ -3,7 +3,7 @@ export class Region {
   points: number[][]
   length: number
   constructor(points: number[][]) {
-    this.points = points || []
+    this.points = points
     this.length = this.points.length
   }
   /**
@@ -12,6 +12,10 @@ export class Region {
    * @memberof Region
    */
   public centroid = () => {
+    if (this.length === 0) {
+      return { longitude: 0, latitude: 0}
+    }
+
     let x = 0
     let y = 0
     let f

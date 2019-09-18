@@ -19,4 +19,9 @@ describe('testing http functions', () => {
     should(result).equal('https://blog.5udou.cn?role=admin&page=1&isOk=1')
     done()
   })
+  it('testing queryObject2String when queryObject is not object', (done) => {
+    const result = AwesomeHttp.queryObject2String('https://blog.5udou.cn')
+    should(result).equal('https://blog.5udou.cn')
+    done()
+  })
 })

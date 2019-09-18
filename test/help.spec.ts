@@ -26,7 +26,9 @@ describe('testing the help functions', () => {
   })
   it('testing toFixed', (done) => {
     const result = AwesomeHelp.toFixed(0.015, 2)
+    const result1 = AwesomeHelp.toFixed(0.015)
     should(result.toString()).equal('0.02')
+    should(result1.toString()).equal('0')
     done()
   })
 
@@ -36,9 +38,40 @@ describe('testing the help functions', () => {
       should(result).equal('2019-08-27 09:00:00')
       done()
     })
+    it('normal case for keep one digit', (done) => {
+      const result = AwesomeHelp.convertDate(new Date(2019, 7, 27, 9, 0, 0), 'YYYY-M-D h:m:s')
+      should(result).equal('2019-8-27 9:0:0')
+      done()
+    })
+    it('normal case for not year', (done) => {
+      const result = AwesomeHelp.convertDate(new Date(2019, 7, 27, 9, 0, 0), 'M-D h:m:s')
+      should(result).equal('8-27 9:0:0')
+      done()
+    })
+    it('normal case for not all expect weeks', (done) => {
+      const result = AwesomeHelp.convertDate(new Date(2019, 7, 27, 9, 0, 0), 'w')
+      should(result).equal('周二')
+      done()
+    })
     it('support Chinese', (done) => {
       const result = AwesomeHelp.convertDate(new Date(2019, 7, 27, 9, 0, 0), 'YYYY年MM月DD日 hh时mm分ss秒')
       should(result).equal('2019年08月27日 09时00分00秒')
+      done()
+    })
+    it('when date is null', (done) => {
+      const result = AwesomeHelp.convertDate(null, 'YYYY年MM月DD日 hh时mm分ss秒')
+      should(result).equal(null)
+      done()
+    })
+    it('when date is not Date Type', (done) => {
+      const result = AwesomeHelp.convertDate({} as Date, 'YYYY年MM月DD日 hh时mm分ss秒')
+      should(result).equal(null)
+      done()
+    })
+
+    it('support weeks', (done) => {
+      const result = AwesomeHelp.convertDate(new Date(2019, 7, 27, 9, 0, 0), 'YYYY年MM月DD日 hh时mm分ss秒 w')
+      should(result).equal('2019年08月27日 09时00分00秒 周二')
       done()
     })
   })
@@ -72,11 +105,13 @@ describe('testing the help functions', () => {
     const result1 = AwesomeHelp.isGenerator(notGenerator.prototype)
     const result2 = AwesomeHelp.isGeneratorFunction(myGenerator)
     const result3 = AwesomeHelp.isGeneratorFunction(notGenerator)
+    const result4 = AwesomeHelp.isGeneratorFunction(true)
 
     should(result).equal(true)
     should(result1).equal(false)
     should(result2).equal(true)
     should(result3).equal(false)
+    should(result4).equal(false)
     done()
   })
 
@@ -98,8 +133,10 @@ describe('testing the help functions', () => {
   it('testing hiddenNumberExpectSpecified', (done) => {
     const result = AwesomeHelp.hiddenNumberExpectSpecified(1000000000, 0, '?')
     const result1 = AwesomeHelp.hiddenNumberExpectSpecified(1000000000, 8, '*')
+    const result2 = AwesomeHelp.hiddenNumberExpectSpecified(1000000000)
     should(result).equal('1?????????')
     should(result1).equal('********0*')
+    should(result2).equal('1?????????')
     done()
   })
 
@@ -115,6 +152,12 @@ describe('testing the help functions', () => {
       const result = AwesomeHelp.checkSensitiveWord('闪电湖手段和速度哈师大会实打实大密诱阿萨德化手段时段是的哈USD哈', true)
 
       should((result as boolean)).equal(true)
+      done()
+    })
+    it('support the quick search,but not found', (done) => {
+      const result = AwesomeHelp.checkSensitiveWord('我是正规的', true)
+
+      should((result as boolean)).equal(false)
       done()
     })
     it('support the custom sensitive sentences', (done) => {
