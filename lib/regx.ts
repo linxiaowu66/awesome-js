@@ -9,7 +9,7 @@ export const isEmoji = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-
 export const privacyMobile = (mobile: string) => mobile.replace(/^(\d{3})\d{4}(\d*)$/, '$1****$2')
 
 // 姓名脱敏
-export const privacyName = (name: string) => name.replace(/^(\S)\S*$/, '$1**')
+export const privacyName = (name: string) => name.replace(/^(\S)(\S|\s)*$/, '$1**')
 
 // 中文以及全角字符
 export const chineseAndfullWidthChar = /[\u4E00-\u9FA5\uF900-\uFA2D\uFF00-\uFFEF]/
