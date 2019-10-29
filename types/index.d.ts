@@ -42,6 +42,15 @@ export namespace AwesomeRegx {
    */
   export const chineseName: RegExp;
   /**
+   * @description 匹配某个字符出现多次的情况，支持[A-Za-z0-9_]
+   */
+  export const alphaOccurMoreThanOneTime: RegExp;
+
+  /**
+   * 匹配任意字符出现多次的情况，支持所有的字符除了换行符(newline)
+   */
+  export const anyCharOccurMoreThanOneTime: RegExp;
+  /**
    * @description 匹配正整数
    */
   export const positiveInteger: RegExp;
