@@ -9,11 +9,16 @@ export const isEmoji = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-
 export const privacyMobile = (mobile: string) => mobile.replace(/^(\d{3})\d{4}(\d*)$/, '$1****$2')
 
 // 姓名脱敏
-export const privacyName = (name: string) => name.replace(/^(\S)\S*$/, '$1**')
+export const privacyName = (name: string) => name.replace(/^(\S)(\S|\s)*$/, '$1**')
 
 // 中文以及全角字符
 export const chineseAndfullWidthChar = /[\u4E00-\u9FA5\uF900-\uFA2D\uFF00-\uFFEF]/
 
+// 匹配某个字符出现多次的情况，支持[A-Za-z0-9_]
+export const alphaOccurMoreThanOneTime = /(\w)\1+/g
+
+// 匹配任意字符出现多次的情况，支持所有的字符除了换行符(newline)
+export const anyCharOccurMoreThanOneTime = /(.)\1+/g
 
 // 替换http的链接为//
 export const https = (url: string) => url.replace(/^http:/, '')
