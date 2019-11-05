@@ -213,6 +213,13 @@ export namespace AwesomeHelp {
     txt: string,
     isQuickSearch: boolean,
     sensitiveWordsMap?: wordMap): boolean
+  /**
+   * 将小数进行格式化，最少保留1位小数，最多保留的小数位可以传值指定，
+   * 比如keepLeastOneDecimal(5.101, 2) => 5.1，(5.00, 2) => 5.0，(5.10163, 3) => 5.101
+   * @param value 需要格式化的值
+   * @param mostDecimal 最多保留的小数位
+   */
+  export function keepLeastOneDecimal(value: string, mostDecimal: number): string
 }
 
 export namespace AwesomeMath {

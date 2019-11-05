@@ -234,3 +234,32 @@ export function checkSensitiveWord(
   }
   return matchWords
 }
+
+/**
+ * 将小数进行格式化，最少保留1位小数，最多保留的小数位可以传值指定，
+ * 比如keepLeastOneDecimal(5.101, 2) => 5.1，(5.00, 2) => 5.0，(5.10163, 3) => 5.101
+ * @param value 需要格式化的值
+ * @param mostDecimal 最多保留的小数位
+ */
+export function keepLeastOneDecimal(value: string, mostDecimal = 2) {
+  /*
+  * 整数时，保留一位小数，小数展示为0；有一位小数时保留一位小数，小数展示为对应一位小数值；
+  */
+  // 取出整数部分和小数点部分,小数点部分最多取mostDecimal位
+  const floatStr = String(value ? value : 0)
+  const match = floatStr.split('.')
+
+  const int = match[0]
+  const float = match[1] ? match[1].slice(0, mostDecimal) : match[1]
+
+  if (isNaN(+int) || (float && isNaN(+float))) {
+    return floatStr
+  }
+  if (float === undefined) {
+    return `${int}.0`
+  }
+  if (+float % 10 === 0) {
+    return `${int}.${+float / 10}`
+  }
+  return `${int}.${float}`
+}

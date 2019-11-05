@@ -169,4 +169,23 @@ describe('testing the help functions', () => {
       done()
     })
   })
+  describe('testing the keepLeastOneDecimal function', () => {
+    it('normal case', (done) => {
+      const result = AwesomeHelp.keepLeastOneDecimal('5.00')
+      const result1 = AwesomeHelp.keepLeastOneDecimal('5.01')
+      const result2 = AwesomeHelp.keepLeastOneDecimal('5.001')
+      const result3 = AwesomeHelp.keepLeastOneDecimal('5.049')
+      const result4 = AwesomeHelp.keepLeastOneDecimal('5.001', 3)
+      const result5 = AwesomeHelp.keepLeastOneDecimal('5.0123', 3)
+
+      should(result).equal('5.0')
+      should(result1).equal('5.01')
+      should(result2).equal('5.0')
+      should(result3).equal('5.04')
+      should(result4).equal('5.001')
+      should(result5).equal('5.012')
+
+      done()
+    })
+  })
 })
