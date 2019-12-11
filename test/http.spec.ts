@@ -14,6 +14,26 @@ describe('testing http functions', () => {
     should(result2).equal('https://blog.5udou.cn?isNew=1')
     done()
   })
+  it('testing getQueryStringParam', (done) => {
+    const result = AwesomeHttp.getQueryStringParam('https://blog.5udou.cn?role=admin&page=1&isOk=1', 'page')
+    const result1 = AwesomeHttp.getQueryStringParam('https://blog.5udou.cn?role=admin&page=1&isOk=1', 'isOk')
+    const result2 = AwesomeHttp.getQueryStringParam('https://blog.5udou.cn', 'isNew')
+
+    should(result).equal('1')
+    should(result1).equal('1')
+    should(result2).equal(null)
+    done()
+  })
+  it('testing parseQueryString2Object', (done) => {
+    const result = AwesomeHttp.parseQueryString2Object('https://blog.5udou.cn?role=admin&page=1&isOk=1')
+    const result1 = AwesomeHttp.parseQueryString2Object('')
+    const result2 = AwesomeHttp.parseQueryString2Object('https://blog.5udou.cn')
+
+    should(result).eql({ role: 'admin', page: '1', isOk: '1'})
+    should(result1).eql({})
+    should(result2).eql({})
+    done()
+  })
   it('testing queryObject2String', (done) => {
     const result = AwesomeHttp.queryObject2String('https://blog.5udou.cn', { role: 'admin', page: 1, isOk: 1})
     should(result).equal('https://blog.5udou.cn?role=admin&page=1&isOk=1')
