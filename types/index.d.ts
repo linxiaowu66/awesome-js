@@ -275,6 +275,17 @@ export namespace AwesomeHttp {
    */
   export function updateQueryStringParam(baseUrl: string, key: string, value: any): string
   /**
+   * @description 根据指定的key值从query string中查找对应的value，如果找不到返回null
+   * @param fullUrl 完整的url,包括host部分
+   * @param key 需要查找的key
+   */
+  export function getQueryStringParam(fullUrl: string, key: string): string | null
+  /**
+   * @description 将query string按照键值对的形式返回object
+   * @param fullUrl 完整的url
+   */
+  export function parseQueryString2Object(fullUrl: string) : object
+  /**
    * @description 解析queryObject后组合一起追加到path后面
    */
   export function queryObject2String(path: string, queryObject: object): string
