@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import { Deferred, wordMap } from './../types/index.d';
+import { Deferred, wordMap } from '../index';
 import Big from 'big.js';
 
 /**

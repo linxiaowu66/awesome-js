@@ -1,6 +1,6 @@
 {
   "name": "awesome-js",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "util functions and regxs for javascript",
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -9,11 +9,6 @@
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "release": "rimraf ./dist && npm run build && npm publish"
   },
-  "files": [
-    "dist",
-    "types",
-    "utils"
-  ],
   "main": "dist/index.js",
   "engine": "node >= 8.x",
   "dependencies": {
