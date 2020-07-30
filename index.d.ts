@@ -1,10 +1,10 @@
 export interface Deferred {
-  resolve: (value?: any) => any
-  reject: (reason?: any) => void
-  promise: Promise<any>
+  resolve: (value?: any) => any;
+  reject: (reason?: any) => void;
+  promise: Promise<any>;
 }
 
-type wordMap = Map<string, recursiveMap | boolean>
+type wordMap = Map<string, recursiveMap | boolean>;
 
 interface recursiveMap extends wordMap {}
 
@@ -149,50 +149,53 @@ export namespace AwesomeHelp {
    * @param list 需要分类的数组对象(必须是一个数组)
    * @param fields 需要分类的字段(必须传递一个函数, 支持多个字段)
    */
-  export function groupBySomeFields<T>(list: T[], fields: (item: T) => any[]): T[][]
+  export function groupBySomeFields<T>(
+    list: T[],
+    fields: (item: T) => any[]
+  ): T[][];
   /**
    * @description 对Date的扩展，将 Date 转化为指定格式的String
    * @param date 需要转换格式的日期
    * @param format 日期转换的最后格式，比如YYYY-MM-DD
    */
-  export function convertDate(date: Date, format: string): string
+  export function convertDate(date: Date, format: string): string;
   /**
    * @description 浮点数相加
    */
-  export function addFloat(arg1: number, arg2: number): number
-   /**
+  export function addFloat(arg1: number, arg2: number): number;
+  /**
    * @description 浮点数相减
    */
-  export function minusFloat(arg1: number, arg2: number): number
-     /**
+  export function minusFloat(arg1: number, arg2: number): number;
+  /**
    * @description 浮点数相除
    */
-  export function divFloat(arg1: number, arg2: number): number
-     /**
+  export function divFloat(arg1: number, arg2: number): number;
+  /**
    * @description 浮点数相乘
    */
-  export function timesFloat(arg1: number, arg2: number): number
+  export function timesFloat(arg1: number, arg2: number): number;
 
-  export function makeDeferred(): Deferred
+  export function makeDeferred(): Deferred;
 
   /**
    * @description 判断是否是生成器
    */
-  export function isGenerator(obj: any): boolean
+  export function isGenerator(obj: any): boolean;
 
   /**
    * @description 判断是否是生成器函数
    */
-  export function isGeneratorFunction(obj: any): boolean
+  export function isGeneratorFunction(obj: any): boolean;
 
   /**
    * @description 判断是否是Promise
    */
-  export function isPromise(obj: any): boolean
+  export function isPromise(obj: any): boolean;
   /**
    * @description 千分法计数
    */
-  export function toThousands(num: number): string
+  export function toThousands(num: number): string;
 
   /**
    * 隐藏所有的数字位除了指定的某一位，比如需要转换100000的所有0为？，那么就要这样调用hiddenNumberExpectSpecified(100000, 0, '?') => 1?????
@@ -200,13 +203,17 @@ export namespace AwesomeHelp {
    * @param expected 不想被隐藏的位数，从左边最高index开始算起,默认是最高位也就是0
    * @param hiddenStr 希望隐藏的数字转换成哪个字符，默认是?
    */
-  export function hiddenNumberExpectSpecified(num: number, expected: number, hiddenStr: string): string
+  export function hiddenNumberExpectSpecified(
+    num: number,
+    expected: number,
+    hiddenStr: string
+  ): string;
 
   /**
    * 将所有的敏感词汇组成一个嵌套的Map结构，使用的是DFA数据结构算法
    * @param sensitiveWordList
    */
-  export function makeSensitiveMap(sensitiveWordList: string[]): wordMap
+  export function makeSensitiveMap(sensitiveWordList: string[]): wordMap;
 
   /**
    * 检查搜寻的文本是否含有敏感词汇
@@ -217,31 +224,43 @@ export namespace AwesomeHelp {
   export function checkSensitiveWord(
     txt: string,
     isQuickSearch?: null,
-    sensitiveWordsMap?: wordMap): Map<string, { location: number}[] >
+    sensitiveWordsMap?: wordMap
+  ): Map<string, { location: number }[]>;
   export function checkSensitiveWord(
     txt: string,
     isQuickSearch: boolean,
-    sensitiveWordsMap?: wordMap): boolean
+    sensitiveWordsMap?: wordMap
+  ): boolean;
   /**
    * 将小数进行格式化，最少保留1位小数，最多保留的小数位可以传值指定，
    * 比如keepLeastOneDecimal(5.101, 2) => 5.1，(5.00, 2) => 5.0，(5.10163, 3) => 5.101
    * @param value 需要格式化的值
    * @param mostDecimal 最多保留的小数位
    */
-  export function keepLeastOneDecimal(value: string, mostDecimal: number): string
+  export function keepLeastOneDecimal(
+    value: string,
+    mostDecimal: number
+  ): string;
+
+  /**
+   * 根据paddingLength指定的位数，将val前面补齐对应的0
+   * @param val
+   * @param paddingLength
+   */
+  export function paddingNumer(val: number, paddingLength: number): string;
 }
 
 export namespace AwesomeMath {
   export class Region {
-    constructor(points: number[][])
-  /**
-   * @description 计算多边形的中间点的坐标(经纬度)
-   */
-    public centroid: () => { x: number, y: number}
-  /**
-   * @description 简单的匹配身份证号
-   */
-    private area: () => number
+    constructor(points: number[][]);
+    /**
+     * @description 计算多边形的中间点的坐标(经纬度)
+     */
+    public centroid: () => { x: number; y: number };
+    /**
+     * @description 简单的匹配身份证号
+     */
+    private area: () => number;
   }
   /**
    * @description 计算两点之间的直线距离
@@ -251,19 +270,24 @@ export namespace AwesomeMath {
    * @param {number} lat2 终点纬度
    * @returns {number} 两点之间的直线距离，单位：米
    */
-  export function getDistance(lng1: number, lat1: number, lng2: number, lat2: number): number
+  export function getDistance(
+    lng1: number,
+    lat1: number,
+    lng2: number,
+    lat2: number
+  ): number;
 
   /**
    * 转换经度或者纬度为地图可识别的格式
    * @param origin
    */
-  export function decodeLatLng(origin: number): number
+  export function decodeLatLng(origin: number): number;
 
   /**
    *
    * @param origin 转换经度或者纬度为整数格式
    */
-  export function encodeLatLng(origin : number): number
+  export function encodeLatLng(origin: number): number;
 }
 
 export namespace AwesomeHttp {
@@ -273,20 +297,27 @@ export namespace AwesomeHttp {
    * @param key 需要更新的key
    * @param value 更新的新值
    */
-  export function updateQueryStringParam(baseUrl: string, key: string, value: any): string
+  export function updateQueryStringParam(
+    baseUrl: string,
+    key: string,
+    value: any
+  ): string;
   /**
    * @description 根据指定的key值从query string中查找对应的value，如果找不到返回null
    * @param fullUrl 完整的url,包括host部分
    * @param key 需要查找的key
    */
-  export function getQueryStringParam(fullUrl: string, key: string): string | null
+  export function getQueryStringParam(
+    fullUrl: string,
+    key: string
+  ): string | null;
   /**
    * @description 将query string按照键值对的形式返回object
    * @param fullUrl 完整的url
    */
-  export function parseQueryString2Object(fullUrl: string) : object
+  export function parseQueryString2Object(fullUrl: string): object;
   /**
    * @description 解析queryObject后组合一起追加到path后面
    */
-  export function queryObject2String(path: string, queryObject: object): string
+  export function queryObject2String(path: string, queryObject: object): string;
 }

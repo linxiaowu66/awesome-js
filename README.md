@@ -9,16 +9,16 @@
 
 ## ChangeLog
 
-* v1.0.0: 初始化项目
+- v1.0.0: 初始化项目
 
 ## TodoList
 
-  - [x] Add Unit Test
+- [x] Add Unit Test
 
 ## Feature
 
-* Typescript, so beatiful types definition
-* Mocha, so the quality of code is can be guaranteed
+- Typescript, so beatiful types definition
+- Mocha, so the quality of code is can be guaranteed
 
 ## All methods
 
@@ -238,6 +238,13 @@ export namespace AwesomeHelp {
     txt: string,
     isQuickSearch: boolean,
     sensitiveWordsMap?: wordMap): boolean
+
+  /**
+  * 根据paddingLength指定的位数，将val前面补齐对应的0
+  * @param val
+  * @param paddingLength
+  */
+  export function paddingNumer(val: number, paddingLength: number): string
 }
 
 export namespace AwesomeMath {
