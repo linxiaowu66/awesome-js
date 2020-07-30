@@ -281,16 +281,20 @@ export function keepLeastOneDecimal(value: string, mostDecimal = 2) {
 }
 
 /**
- * 根据paddingLength指定的位数，将val前面补齐对应的0
+ * 根据length指定的位数，将val前面补齐对应的指定字符
  * @param val
  * @param paddingLength
  */
-export function paddingNumer(val: number, paddingLength: number): string {
-  if (val.toString().length >= paddingLength) {
+export function prefixPadding(
+  val: string | number,
+  length: number,
+  paddingStr = "0"
+): string {
+  if (val.toString().length >= length) {
     return val.toString();
   }
 
-  const gap = paddingLength - val.toString().length;
+  const gap = length - val.toString().length;
 
-  return new Array(gap).fill(0).join("").concat(val.toString());
+  return new Array(gap).fill(paddingStr).join("").concat(val.toString());
 }

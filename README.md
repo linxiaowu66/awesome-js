@@ -244,7 +244,7 @@ export namespace AwesomeHelp {
   * @param val
   * @param paddingLength
   */
-  export function paddingNumer(val: number, paddingLength: number): string
+  export function prefixPadding(val: string, length: number, paddingStr?: string): string
 }
 
 export namespace AwesomeMath {

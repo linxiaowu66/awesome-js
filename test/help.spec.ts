@@ -236,11 +236,13 @@ describe("testing the help functions", () => {
   });
   describe("testing the paddingNumer function", () => {
     it("normal case", (done) => {
-      const result = AwesomeHelp.paddingNumer(100, 6);
-      const result1 = AwesomeHelp.paddingNumer(242567, 5);
+      const result = AwesomeHelp.prefixPadding(100, 6);
+      const result1 = AwesomeHelp.prefixPadding(242567, 5);
+      const result2 = AwesomeHelp.prefixPadding("xxxxx", 10, "o");
 
       should(result).equal("000100");
       should(result1).equal("242567");
+      should(result2).equal("oooooxxxxx");
 
       done();
     });
