@@ -298,3 +298,58 @@ export function prefixPadding(
 
   return new Array(gap).fill(paddingStr).join("").concat(val.toString());
 }
+
+// 还有一种很巧妙的实现，利用json：
+/**
+ * const unflattenObject = obj =>
+  Object.keys(obj).reduce((acc, k) => {
+    if (k.indexOf('.') !== -1) {
+      const keys = k.split('.');
+      Object.assign(
+        acc,
+        JSON.parse(
+          '{' +
+            keys.map((v, i) => (i !== keys.length - 1 ? `"${v}":{` : `"${v}":`)).join('') +
+            obj[k] +
+            '}'.repeat(keys.length)
+        )
+      );
+    } else acc[k] = obj[k];
+    return acc;
+  }, {});
+ * 
+ */
+// {'a.b.c': 111 } => { a: {b: { c: 111 }}}
+export function unflattenObject(obj: { [key: string]: any }, splitChar = ".") {
+  return Object.keys(obj).reduce((res, k) => {
+    k.split(splitChar).reduce(
+      (acc, e, i, keys) =>
+        acc[e] ||
+        (acc[e] = isNaN(Number(keys[i + 1]))
+          ? keys.length - 1 === i
+            ? obj[k]
+            : {}
+          : []),
+      res
+    );
+    return res;
+  }, {});
+}
+
+export function flattenObject(
+  obj: { [key: string]: any },
+  splitChar = ".",
+  prefix = ""
+) {
+  return Object.keys(obj).reduce((acc, k) => {
+    const pre = prefix.length ? `${prefix}${splitChar}` : "";
+    if (
+      typeof obj[k] === "object" &&
+      obj[k] !== null &&
+      Object.keys(obj[k]).length > 0
+    )
+      Object.assign(acc, flattenObject(obj[k], splitChar, pre + k));
+    else acc[pre + k] = obj[k];
+    return acc;
+  }, {});
+}

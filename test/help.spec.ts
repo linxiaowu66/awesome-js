@@ -247,4 +247,32 @@ describe("testing the help functions", () => {
       done();
     });
   });
+
+  describe("unflatten object", () => {
+    it("normal case", (done) => {
+      const result = AwesomeHelp.unflattenObject({ a_b_c_d: 10, a_x: 11 }, "_");
+      const result1 = AwesomeHelp.unflattenObject({ "a.b.c.d": 10, "a.x": 11 });
+
+      should(result).deepEqual({ a: { x: 11, b: { c: { d: 10 } } } });
+      should(result1).deepEqual({ a: { x: 11, b: { c: { d: 10 } } } });
+
+      done();
+    });
+  });
+  describe("flatten object", () => {
+    it("normal case", (done) => {
+      const result = AwesomeHelp.flattenObject(
+        { a: { x: 11, b: { c: { d: 10 } } } },
+        "_"
+      );
+      const result1 = AwesomeHelp.flattenObject({
+        a: { x: 11, b: { c: { d: 10 } } },
+      });
+
+      should(result).deepEqual({ a_b_c_d: 10, a_x: 11 });
+      should(result1).deepEqual({ "a.b.c.d": 10, "a.x": 11 });
+
+      done();
+    });
+  });
 });

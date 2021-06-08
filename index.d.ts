@@ -252,6 +252,26 @@ export namespace AwesomeHelp {
     length: number,
     paddingStr?: string
   ): string;
+
+  /**
+   * 反扁平对象，{'a.b.c': 111 } => { a: {b: { c: 111}}}
+   * @param obj 被操作的对象
+   * @param splitChar 分割字符，默认是 "."
+   */
+  export function unflattenObject(
+    obj: { [key: string]: any },
+    splitChar?: string
+  ): { [key: string]: any };
+
+  /**
+   * 扁平化对象，{ a: {b: { c: 111}}} => {'a.b.c': 111 }
+   * @param obj 被操作的对象
+   * @param splitChar 分割字符，默认是 "."
+   */
+  export function flattenObject(
+    obj: { [key: string]: any },
+    splitChar?: string
+  ): { [key: string]: any };
 }
 
 export namespace AwesomeMath {
