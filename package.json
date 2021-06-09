@@ -1,6 +1,6 @@
 {
   "name": "awesome-js",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "util functions and regxs for javascript",
   "scripts": {
     "build": "tsc -p tsconfig.json",
