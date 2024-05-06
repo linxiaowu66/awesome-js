@@ -1,11 +1,7 @@
-import * as AwesomeMath from './math';
-import * as AwesomeRegx from './regx'
-import * as AwesomeHttp from './http'
-import * as AwesomeHelp from './help'
+import * as AwesomeGis from "./gis";
+import * as AwesomeRegx from "./regx";
+import * as AwesomeHttp from "./http";
+import * as AwesomeHelp from "./help";
+import * as AwesomeWs from "./websocket";
 
-export {
-  AwesomeMath,
-  AwesomeRegx,
-  AwesomeHttp,
-  AwesomeHelp
-}
+export { AwesomeGis, AwesomeRegx, AwesomeHttp, AwesomeHelp, AwesomeWs };

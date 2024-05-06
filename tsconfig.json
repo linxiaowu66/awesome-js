@@ -7,16 +7,15 @@
     "sourceMap": true,
     "module": "commonjs",
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "isolatedModules": false,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "noImplicitAny": true,
     "preserveConstEnums": true,
-    "suppressImplicitAnyIndexErrors": true,
     "allowJs": true,
     "baseUrl": ".",
-    "paths": {
-    }
+    "paths": {}
   },
   "include": ["lib"]
 }

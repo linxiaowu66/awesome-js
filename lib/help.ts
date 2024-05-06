@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
-import { Deferred, wordMap } from "../index";
-import Big from "big.js";
+import { wordMap } from "../index";
+import { Big } from "big.js";
 
 /**
  * 对float类型的两个数相加，因为js的语言缺陷，直接相加会出现问题的
@@ -52,7 +52,7 @@ export const toFixed = (arg1: number, fixedDigit = 0) => {
  * @param  {Date}       日期
  * @return {String}     字符串格式
  */
-export const convertDate = (date: Date, format: string): string => {
+export const convertDate = (date: Date | null, format: string): string => {
   if (!date) {
     return null;
   }
@@ -61,7 +61,7 @@ export const convertDate = (date: Date, format: string): string => {
   }
   let str = format;
   const week = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
-  const o = {
+  const o: Record<string, number> = {
     "M+": date.getMonth() + 1,
     "D+": date.getDate(),
     "h+": date.getHours(),
@@ -69,29 +69,32 @@ export const convertDate = (date: Date, format: string): string => {
     "s+": date.getSeconds(),
   };
   if (/(Y+)/.test(format)) {
+    const res = format.match(/(Y+)/);
     str = str.replace(
-      RegExp.$1,
+      res[1],
       date
         .getFullYear()
         .toString()
-        .substr(4 - RegExp.$1.length)
+        .substring(4 - res[1].length)
     );
   }
 
   for (const k in o) {
     // eslint-disable-line
     if (new RegExp(`(${k})`).test(format)) {
+      const res = format.match(new RegExp(`(${k})`));
       str = str.replace(
-        RegExp.$1,
-        RegExp.$1.length === 1
-          ? o[k]
-          : `00${o[k]}`.substr(o[k].toString().length)
+        res[1],
+        res[1].length === 1
+          ? o[k].toString()
+          : `00${o[k]}`.substring(o[k].toString().length)
       );
     }
   }
 
   if (new RegExp("(w+)").test(format)) {
-    str = str.replace(RegExp.$1, week[date.getDay()]);
+    const res = format.match(new RegExp("(w+)"));
+    str = str.replace(res[1], week[date.getDay()]);
   }
 
   return str;
@@ -106,7 +109,7 @@ export function groupBySomeFields<T>(
   list: Array<T>,
   fields: (item: T) => {}
 ): T[][] {
-  const groups = {};
+  const groups: Record<string, any> = {};
   list.map((item) => {
     const groupByFields = JSON.stringify(fields(item));
     groups[groupByFields] = groups[groupByFields] || [];
@@ -323,7 +326,7 @@ export function prefixPadding(
 export function unflattenObject(obj: { [key: string]: any }, splitChar = ".") {
   return Object.keys(obj).reduce((res, k) => {
     k.split(splitChar).reduce(
-      (acc, e, i, keys) =>
+      (acc: Record<string, string>, e, i, keys) =>
         acc[e] ||
         (acc[e] = isNaN(Number(keys[i + 1]))
           ? keys.length - 1 === i
@@ -341,15 +344,17 @@ export function flattenObject(
   splitChar = ".",
   prefix = ""
 ) {
-  return Object.keys(obj).reduce((acc, k) => {
+  return Object.keys(obj).reduce((acc: Record<string, any>, k) => {
     const pre = prefix.length ? `${prefix}${splitChar}` : "";
     if (
       typeof obj[k] === "object" &&
       obj[k] !== null &&
       Object.keys(obj[k]).length > 0
-    )
+    ) {
       Object.assign(acc, flattenObject(obj[k], splitChar, pre + k));
-    else acc[pre + k] = obj[k];
+    } else {
+      acc[pre + k] = obj[k];
+    }
     return acc;
   }, {});
 }
