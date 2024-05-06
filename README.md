@@ -10,6 +10,7 @@
 ## ChangeLog
 
 - v1.0.0: 初始化项目
+- v2.0.0: 新增websocket封装的类以及GIS相关的有用函数
 
 ## TodoList
 
@@ -22,7 +23,7 @@
 
 ## All methods
 
-```
+```typescript
 export interface Deferred {
   resolve: (value?: any) => any
   reject: (reason?: any) => void
@@ -247,7 +248,7 @@ export namespace AwesomeHelp {
   export function prefixPadding(val: string, length: number, paddingStr?: string): string
 }
 
-export namespace AwesomeMath {
+export namespace AwesomeGis {
   export class Region {
     constructor(points: number[][])
   /**
@@ -259,15 +260,96 @@ export namespace AwesomeMath {
    */
     private area: () => number
   }
-  /**
-   * @description 计算两点之间的直线距离
-   * @param {number} lng1 起点纬度
-   * @param {number} lat1 起点纬度
-   * @param {number} lng2 终点纬度
-   * @param {number} lat2 终点纬度
-   * @returns {number} 两点之间的直线距离，单位：米
+ /**
+   * 根据两个经纬度点坐标计算之间的夹角
+   * @param lng_a
+   * @param lat_a
+   * @param lng_b
+   * @param lat_b
+   * @returns
    */
-  export function getDistance(lng1: number, lat1: number, lng2: number, lat2: number): number
+  getAngleByLngLat: (lng_a: number, lat_a: number, lng_b: number, lat_b: number) => number;
+  /**
+   * 根据两个经纬度点计算之间的距离
+   * @param lat1
+   * @param lng1
+   * @param lat2
+   * @param lng2
+   * @returns
+   */
+  getDistance: (lat1: number, lng1: number, lat2: number, lng2: number) => number;
+  /**
+   * GCJ坐标转WGS坐标
+   * @param pos
+   * @returns
+   */
+  gcj02towgs84: (pos: number[]) => { utm_x: number; utm_y: number };
+  /**
+   * WGS坐标转GCJ坐标
+   * @param utm_x
+   * @param utm_y
+   * @returns
+   */
+  wgs84togcj02: (utm_x: number, utm_y: number) => number[];
+  /**
+   * 根据各个方位角得到经纬度
+   * @param easting
+   * @param northing
+   * @param zoneNum
+   * @param zoneLetter
+   * @param northern
+   * @returns
+   */
+  toLatLon: (
+    easting: number,
+    northing: number,
+    zoneNum: number,
+    zoneLetter: string,
+    northern?: boolean,
+  ) => number[];
+  /**
+   * 根据经纬度得到各个方位角
+   * @param latitude
+   * @param longitude
+   * @param forceZoneNum
+   * @returns
+   */
+  fromLatLon: (
+    latitude: number,
+    longitude: number,
+    forceZoneNum?: number,
+  ) => { easting: number; northing: number; zoneNum: number; zoneLetter: string };
+
+  /**
+   * 判断某个坐标点是否在一个区域内部
+   * @param point
+   * @param points
+   * @returns
+   */
+  judgePointIsInSpecificArea: (point: DotProps, points: DotProps[]) => boolean;
+
+  /**
+   * 根据起始点坐标以及方向和距离计算目的点的经纬度
+   */
+  getTargetLngLatByAngleDistanceFromSourceLngLat: (
+    lng: number,
+    lat: number,
+    brng: number,
+    dist: number,
+  ) => { lng: number; lat: number };
+
+  /**
+   * 根据角度转弧度
+   * @param deg
+   * @returns
+   */
+  toRadians: (deg: number) => number;
+  /**
+   * 根据弧度转角度
+   * @param rad
+   * @returns
+   */
+  toDegrees: (rad: number) => number;
 
   /**
    * 转换经度或者纬度为地图可识别的格式
@@ -294,6 +376,28 @@ export namespace AwesomeHttp {
    * @description 解析queryObject后组合一起追加到path后面
    */
   export function queryObject2String(path: string, queryObject: object): string
+}
+
+export namespace AwesomeWs {
+  export interface ConfigProps {
+    url: string;
+    onMessage?: (data: MessageEvent) => void;
+    onOpen?: (data: Event) => void;
+    onClose?: (data: CloseEvent) => void;
+    onError?: (data: Event) => void;
+    onReconnect?: (data: any) => void;
+    onOffline?: (data: any) => void;
+    sendPing?: (() => void) | null;
+    /** 心跳间隔 */
+    interval?: number;
+    /** 重连次数 */
+    reconnect?: number;
+    /** 页面被激活时再触发重连，重连次数设置为无限后才生效 */
+    reconnectOnVisibility?: boolean;
+  }
+  export default class BaseSocket {
+    constructor(configs: ConfigProps){}
+  }
 }
 ```
 
