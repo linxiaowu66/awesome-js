@@ -362,6 +362,36 @@ export namespace AwesomeGis {
    * @param origin 转换经度或者纬度为整数格式
    */
   export function encodeLatLng(origin : number): number
+
+  /**
+ * 根据日期以及经纬度，按照潮汐算法计算出当天的日出日落时间
+ * @param date 查询的日期
+ * @param lat 纬度
+ * @param lng 精度
+ * @param height 海拔（可选），没有的话默认为0
+ * @returns
+ */
+export function getSunRhythm (
+  date: Date,
+  lat: number,
+  lng: number,
+  height = 0
+): {
+  solarNoon: Date,  // 正午时间
+  nadir: Date, // 午夜时间
+  sunrise: Date, // 日出时间
+  sunset: Date, // 日落时间
+  sunriseEnd: Date,
+  sunsetStart: Date,
+  dawn: Date, // 黎明时间
+  dusk: Date, // 黄昏时间
+  nauticalDawn: Date,
+  nauticalDusk: Date,
+  nightEnd: Date,
+  night: Date,
+  goldenHourEnd: Date,
+  goldenHour: Date
+}
 }
 
 export namespace AwesomeHttp {

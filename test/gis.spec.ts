@@ -25,7 +25,7 @@ const defaultPoints = [
   [116.4688, 40.052578],
 ];
 
-describe("testing math functions", () => {
+describe("testing gis functions", () => {
   describe("testing centroid", () => {
     it("testing centroid when anything is ok", (done) => {
       const ins = new AwesomeGis.Region(defaultPoints);
@@ -71,6 +71,20 @@ describe("testing math functions", () => {
   it("testing encodeLatLng when lat is null", (done) => {
     const result = AwesomeGis.encodeLatLng(null);
     should(result).equal(null);
+    done();
+  });
+  it("testing getSunRhythm", (done) => {
+    const result = AwesomeGis.getSunRhythm(
+      new Date(2024, 5, 4),
+      29.786475875762477,
+      122.01625589219177
+    );
+    should(result.sunrise.getTime()).equal(
+      new Date("2024-06-04 04:52:44.097").getTime()
+    );
+    should(result.sunset.getTime()).equal(
+      new Date("2024-06-04 18:50:40.039").getTime()
+    );
     done();
   });
 });

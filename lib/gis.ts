@@ -1,3 +1,5 @@
+const { PI, sin, cos, asin, acos } = Math;
+
 export interface DotProps {
   x: number;
   y: number;
@@ -35,6 +37,12 @@ const R = 6378137;
 
 const ZONE_LETTERS = "CDEFGHJKLMNPQRSTUVWXX";
 
+const dayMs = 1000 * 60 * 60 * 24;
+const J1970 = 2440588;
+const J2000 = 2451545;
+const J0 = 0.0009;
+const rad = PI / 180;
+const e = rad * 23.4397;
 export class Region {
   points: number[][];
   length: number;
@@ -559,3 +567,124 @@ export function encodeLatLng(origin: number | null): number {
   }
   return origin * 1e6;
 }
+
+const toJulian = (date: Date) => {
+  return date.valueOf() / dayMs - 0.5 + J1970;
+};
+const fromJulian = (j: number) => {
+  return new Date((j + 0.5 - J1970) * dayMs);
+};
+const toDays = (date: Date) => {
+  return toJulian(date) - J2000;
+};
+
+const declination = (l: number, b: number) => {
+  return asin(sin(b) * cos(e) + cos(b) * sin(e) * sin(l));
+};
+
+const solarMeanAnomaly = (d: number) => {
+  return rad * (357.5291 + 0.98560028 * d);
+};
+
+const eclipticLongitude = (M: number) => {
+  const C = rad * (1.9148 * sin(M) + 0.02 * sin(2 * M) + 0.0003 * sin(3 * M)); // equation of center
+  const P = rad * 102.9372; // perihelion of the Earth
+
+  return M + C + P + PI;
+};
+
+const times: Array<[number, string, string]> = [
+  [-0.833, "sunrise", "sunset"],
+  [-0.3, "sunriseEnd", "sunsetStart"],
+  [-6, "dawn", "dusk"],
+  [-12, "nauticalDawn", "nauticalDusk"],
+  [-18, "nightEnd", "night"],
+  [6, "goldenHourEnd", "goldenHour"],
+];
+
+const julianCycle = (d: number, lw: number) => {
+  return Math.round(d - J0 - lw / (2 * PI));
+};
+
+const approxTransit = (Ht: number, lw: number, n: number) => {
+  return J0 + (Ht + lw) / (2 * PI) + n;
+};
+const solarTransitJ = (ds: number, M: number, L: number) => {
+  return J2000 + ds + 0.0053 * sin(M) - 0.0069 * sin(2 * L);
+};
+
+const hourAngle = (h: number, phi: number, d: number) => {
+  return acos((sin(h) - sin(phi) * sin(d)) / (cos(phi) * cos(d)));
+};
+const observerAngle = (height: number) => {
+  return (-2.076 * Math.sqrt(height)) / 60;
+};
+
+const getSetJ = (
+  h: number,
+  lw: number,
+  phi: number,
+  dec: number,
+  n: number,
+  M: number,
+  L: number
+) => {
+  const w = hourAngle(h, phi, dec);
+  const a = approxTransit(w, lw, n);
+  return solarTransitJ(a, M, L);
+};
+
+/**
+ * 根据日期以及经纬度，按照潮汐算法计算出当天的日出日落时间
+ * @param date 查询的日期
+ * @param lat 纬度
+ * @param lng 精度
+ * @param height 海拔（可选），没有的话默认为0
+ * @returns
+ */
+export const getSunRhythm = (
+  date: Date,
+  lat: number,
+  lng: number,
+  height = 0
+) => {
+  const lw = rad * -lng;
+  const phi = rad * lat;
+
+  const dh = observerAngle(height);
+
+  const d = toDays(date);
+  const n = julianCycle(d, lw);
+  const ds = approxTransit(0, lw, n);
+
+  const M = solarMeanAnomaly(ds);
+  const L = eclipticLongitude(M);
+  const dec = declination(L, 0);
+
+  const Jnoon = solarTransitJ(ds, M, L);
+
+  let i;
+  let len;
+  let time;
+  let h0;
+  let Jset;
+  let Jrise;
+
+  const result: Record<string, Date> = {
+    solarNoon: fromJulian(Jnoon),
+    nadir: fromJulian(Jnoon - 0.5),
+  };
+
+  for (i = 0, len = times.length; i < len; i += 1) {
+    time = times[i];
+    h0 = (time[0] + dh) * rad;
+
+    Jset = getSetJ(h0, lw, phi, dec, n, M, L);
+    Jrise = Jnoon - (Jset - Jnoon);
+
+    result[time[1]] = fromJulian(Jrise);
+    result[time[2]] = fromJulian(Jset);
+  }
+
+  return result;
+};
