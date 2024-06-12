@@ -358,3 +358,28 @@ export function flattenObject(
     return acc;
   }, {});
 }
+
+/**
+ * 洗牌算法，随机排序数组中的元素
+ * @param array 数组
+ * @returns
+ */
+export function shuffleArray<T>(array: Array<T>) {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+/**
+ * 将数组分割成大小相等的更小数组。[1,2,3] => [[1], [2], [3]]
+ * @param array
+ * @param size
+ * @returns
+ */
+export function chunkArray<T>(array: T[], size: number) {
+  return Array.from({ length: Math.ceil(array.length / size) }, (v, i) =>
+    array.slice(i * size, i * size + size)
+  );
+}
