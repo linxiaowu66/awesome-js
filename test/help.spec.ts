@@ -271,4 +271,17 @@ describe("testing the help functions", () => {
       done();
     });
   });
+  describe("chunk array", () => {
+    it("normal case", (done) => {
+      const result = AwesomeHelp.chunkArray([1, 2, 3, 4, 5, 6], 1);
+      const result1 = AwesomeHelp.chunkArray([1, 2, 3, 4, 5, 6], 4);
+
+      should(result).deepEqual([[1], [2], [3], [4], [5], [6]]);
+      should(result1).deepEqual([
+        [1, 2, 3, 4],
+        [5, 6],
+      ]);
+      done();
+    });
+  });
 });

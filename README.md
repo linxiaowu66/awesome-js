@@ -246,6 +246,21 @@ export namespace AwesomeHelp {
   * @param paddingLength
   */
   export function prefixPadding(val: string, length: number, paddingStr?: string): string
+
+  /**
+   * 将数组分割成大小相等的更小数组。[1,2,3] => [[1], [2], [3]]
+   * @param array
+   * @param size
+   * @returns
+   */
+  export function chunkArray<T>(array: T[], size: number): T[][]
+
+  /**
+   * 洗牌算法，随机排序数组中的元素
+   * @param array 数组
+   * @returns
+   */
+  export function shuffleArray<T>(array: Array<T>): T[]
 }
 
 export namespace AwesomeGis {
