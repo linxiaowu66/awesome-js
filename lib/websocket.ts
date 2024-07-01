@@ -15,6 +15,8 @@ export interface ConfigProps {
   reconnect?: number;
   /** 页面被激活时再触发重连，重连次数设置为无限后才生效 */
   reconnectOnVisibility?: boolean;
+  /** 重连事件发生之后等待恢复的超时时间，默认500ms  */
+  retryEventTimeout?: number;
 }
 
 export default class BaseSocket {
@@ -28,6 +30,7 @@ export default class BaseSocket {
   reconnectOnVisibility = true; // 页面被激活时再触发重连
   isWindowActive = true; // 页面是否被激活中
   disposed = false; // ws是否被销毁
+  retryEventTimeout = 500;
   onMessage?: (data: MessageEvent) => void;
   onOpen?: (data: Event) => void;
   onClose?: (data: CloseEvent) => void;
@@ -35,6 +38,10 @@ export default class BaseSocket {
   onReconnect?: (data: Event) => void;
   onOffline?: (data: Event) => void;
   sendPing?: (() => void) | null;
+  resendData?: any; // 重连成功后需要重发的数据
+  beforeUnloadEventCallback?: () => void;
+  offlineEventCallback?: (data: Event) => void;
+  visibilitychangeEventCallback?: () => void;
   constructor(configs: ConfigProps) {
     this.url = configs.url;
     this.websocket = new WebSocket(this.url);
@@ -42,6 +49,7 @@ export default class BaseSocket {
     this.interval = configs.interval || 1000;
     this.reconnect = configs.reconnect || 3;
     this.reconnectOnVisibility = configs.reconnectOnVisibility || true;
+    this.retryEventTimeout = configs.retryEventTimeout || 500;
     this.initWebSocket(configs);
   }
   get isConnected() {
@@ -82,6 +90,7 @@ export default class BaseSocket {
       this.count = 0;
       this.onOpen && this.onOpen(Event);
       if (this.sendPing) {
+        this.removePing();
         this.heartbeat = setInterval(this.sendPing, this.interval);
       }
     };
@@ -104,15 +113,19 @@ export default class BaseSocket {
       }
     };
     // 离开页面，不再重连
-    window.addEventListener("beforeunload", () => this.closeWebsocket());
-    window.addEventListener("offline", (data: Event) =>
-      this.handleOffline(data)
-    );
+    this.beforeUnloadEventCallback = () => this.closeWebsocket();
+    this.offlineEventCallback = (data: Event) => this.handleOffline(data);
+    window.addEventListener("beforeunload", this.beforeUnloadEventCallback);
+    window.addEventListener("offline", this.offlineEventCallback);
     this.listenOnVisibility();
   }
   sendMessage(data: any) {
     this.isConnected && this.websocket.send(JSON.stringify(data));
-    this.isClosed && this.reconnect && this.reconnectWebSocket();
+    if (this.isClosed && this.reconnect && !this.connectLock) {
+      this.connectLock = true;
+      this.resendData = data;
+      this.reconnectWebSocket();
+    }
   }
   removePing() {
     this.heartbeat && clearInterval(this.heartbeat);
@@ -126,10 +139,10 @@ export default class BaseSocket {
     this.disposed = true;
     this.websocket.close();
     this.removePing();
-    window.removeEventListener("beforeunload ", () => this.closeWebsocket());
-    window.removeEventListener("offline", (data: Event) =>
-      this.handleOffline(data)
-    );
+    window.removeEventListener("beforeunload ", this.beforeUnloadEventCallback);
+    window.removeEventListener("offline", this.offlineEventCallback);
+    this.beforeUnloadEventCallback = null;
+    this.offlineEventCallback = null;
   }
   onVisibility() {
     this.isWindowActive = document.visibilityState === "visible";
@@ -142,8 +155,16 @@ export default class BaseSocket {
     if (!this.reconnectOnVisibility) {
       return;
     }
-    document.removeEventListener("visibilitychange", () => this.onVisibility());
-    document.addEventListener("visibilitychange", () => this.onVisibility());
+
+    document.removeEventListener(
+      "visibilitychange",
+      this.visibilitychangeEventCallback
+    );
+    this.visibilitychangeEventCallback = () => this.onVisibility();
+    document.addEventListener(
+      "visibilitychange",
+      this.visibilitychangeEventCallback
+    );
   }
   reconnectWebSocket = throttle(() => {
     if (this.reconnectOnVisibility && !this.isWindowActive) {
@@ -170,5 +191,19 @@ export default class BaseSocket {
       sendPing: this.sendPing,
     });
     this.connectLock = false;
+    if (this.resendData) {
+      setTimeout(() => {
+        if (this.isConnected) {
+          this.websocket.send(JSON.stringify(this.resendData));
+          this.resendData = null;
+        } else {
+          console.error(
+            `重连等待 ${
+              this.retryEventTimeout
+            }ms 之后仍未成功，数据未能发送, 时间戳：${Date.now()}`
+          );
+        }
+      }, this.retryEventTimeout);
+    }
   }, this.interval);
 }
